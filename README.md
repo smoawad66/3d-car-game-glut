@@ -16,4 +16,5 @@ This project is a simple car game implemented using OpenGL and GLUT (OpenGL Util
 ## Installation
 
 1. Clone the repository:
+
    ```git clone https://github.com/smoawad66/car-game-glut-opengl.git```
