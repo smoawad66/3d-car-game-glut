@@ -10,7 +10,7 @@ This project is a simple car game implemented using C++ OpenGL and GLUT (OpenGL 
 
 - 3D graphics rendered using OpenGL.
 - Simple car model with basic controls.
-- Randomly generated obstacles and rewards for added challenge.
+- Randomly generated obstacles and coins for added challenge.
 - Score tracking system to keep track of player performance.
 - Lighting & textures.
 - Sounds to enhance the experience.
