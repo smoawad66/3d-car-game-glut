@@ -1,7 +1,5 @@
 ![Alt Text](https://github.com/smoawad66/car-game-glut-opengl/blob/main/images/car-game.png)
 
-![Alt Text](https://github.com/smoawad66/car-game-glut-opengl/blob/main/images/car-game-2.png)
-
 # Car Game using OpenGL and GLUT
 
 This project is a simple car game implemented using C++ OpenGL and GLUT (OpenGL Utility Toolkit). The game involves controlling a car to navigate through a 3D environment while avoiding obstacles and collecting coins.
@@ -20,3 +18,5 @@ This project is a simple car game implemented using C++ OpenGL and GLUT (OpenGL 
 1. Clone the repository:
 
    ```git clone https://github.com/smoawad66/car-game-glut-opengl.git```
+
+![Alt Text](https://github.com/smoawad66/car-game-glut-opengl/blob/main/images/car-game-2.png)
