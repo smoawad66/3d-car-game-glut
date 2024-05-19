@@ -4,7 +4,7 @@
 
 # Car Game using OpenGL and GLUT
 
-This project is a simple car game implemented using OpenGL and GLUT (OpenGL Utility Toolkit). The game involves controlling a car to navigate through a 3D environment while avoiding obstacles and collecting rewards.
+This project is a simple car game implemented using C++ OpenGL and GLUT (OpenGL Utility Toolkit). The game involves controlling a car to navigate through a 3D environment while avoiding obstacles and collecting coins.
 
 ## Features
 
@@ -12,6 +12,8 @@ This project is a simple car game implemented using OpenGL and GLUT (OpenGL Util
 - Simple car model with basic controls.
 - Randomly generated obstacles and rewards for added challenge.
 - Score tracking system to keep track of player performance.
+- Lighting & textures.
+- Sounds to enhance the experience.
 
 ## Installation
 
