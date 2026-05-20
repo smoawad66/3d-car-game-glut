@@ -28,21 +28,15 @@ file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 # Create executable
 add_executable(car_game ${SOURCES})
 
-
 # Link libraries
 target_link_libraries(car_game
     ${OPENGL_LIBRARIES}
-    OpenGL::GLU
     ${GLUT_LIBRARIES}
     ${SDL2_LIBRARIES}
     ${SDL2_MIXER_LIBRARIES}
+    OpenGL::GLU
+    SDL2_mixer
 )
-
-# Fallback: Manually link SDL2_mixer on Linux systems
-if(UNIX)
-    target_link_libraries(car_game SDL2_mixer)
-endif()
-
 
 # Copy assets to the build directory
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
