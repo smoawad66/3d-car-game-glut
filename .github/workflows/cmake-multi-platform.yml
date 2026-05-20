@@ -82,3 +82,18 @@ jobs:
     - name: Test
       working-directory: ${{ steps.strings.outputs.build-output-dir }}
       run: ctest --build-config ${{ matrix.build_type }}
+      
+    - name: Upload Game Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        # Give each upload a unique name based on the OS and compiler
+        name: CarGame-${{ matrix.os }}-${{ matrix.c_compiler }}
+        # Suppress warnings for paths that don't exist on the current OS
+        if-no-files-found: ignore
+        path: |
+          # The Linux executable
+          ${{ steps.strings.outputs.build-output-dir }}/car_game
+          # The Windows executable (MSVC puts this in a Release subfolder)
+          ${{ steps.strings.outputs.build-output-dir }}/Release/car_game.exe
+          # Your game's assets folder
+          ${{ steps.strings.outputs.build-output-dir }}/assets/
