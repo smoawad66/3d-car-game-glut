@@ -1,7 +1,3 @@
-#include <iostream>
-#include <string>
-#include <map>
-#include <SDL2/SDL.h>
 #include <SoundEngine.h>
 
 using namespace std;

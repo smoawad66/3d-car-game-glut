@@ -1,6 +1,8 @@
 #ifndef MENU_H
 #define MENU_H
 
+#include <Utils.h>
+
 class Menu
 {
 private:
@@ -9,7 +11,5 @@ public:
     Menu(int windowWidth, int windowHeight);
     void draw(int selectedOption);
 };
-
-
 
 #endif

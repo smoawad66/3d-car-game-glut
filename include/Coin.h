@@ -1,4 +1,7 @@
-#pragma once
+#ifndef COIN_H
+#define COIN_H
+
+#include <GL/glut.h>
 
 class Coin
 {
@@ -10,3 +13,5 @@ public:
 	Coin(float x, float z, bool special = false, bool colided = false);
 	void draw(float &coinAngle);
 };
+
+#endif

@@ -1,9 +1,4 @@
 #include <Utils.h>
-#include <GL/glut.h>
-#include <cmath>
-#include <algorithm>
-#include <chrono>
-using namespace std;
 
 
 void delay(float sec) {

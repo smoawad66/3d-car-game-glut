@@ -1,8 +1,13 @@
 #ifndef UTILS_H
 #define UTILS_H
 
+#include <iostream>
+#include <filesystem>
+#include <GL/glut.h>
 #include <vector>
 #include <string>
+#include <chrono>
+
 using namespace std;
 
 

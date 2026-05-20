@@ -1,6 +1,4 @@
 #include <Menu.h>
-#include <Utils.h>
-#include <GL/glut.h>
 
 Menu::Menu(int windowWidth, int windowHeight) {
     this->windowWidth = windowWidth;

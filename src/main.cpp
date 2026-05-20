@@ -1,16 +1,13 @@
-#include <bits/stdc++.h>
-#include <GL/glut.h>
+#include <Utils.h>
 #include <Car.h>
 #include <Coin.h>
 #include <Wall.h>
 #include <Road.h>
 #include <SoundEngine.h>
-#include <Utils.h>
 #include <Menu.h>
-#include <map>
-#include <filesystem>
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
+#define ENTER 13
 #define ESC 27
 using namespace std;
 namespace fs = filesystem;
@@ -316,8 +313,7 @@ void keyboard(unsigned char key, int, int) {// set the buffer of a key if it is 
 			soundEngine->playSound("menu-selection.wav");
 		}
 		
-        if (key == 13) { // Enter
-			
+        if (key == ENTER) {
             if (selectedOption == 0) {
 				resetGame();
                 gameState = PLAYING;
