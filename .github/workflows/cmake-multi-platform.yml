@@ -85,17 +85,7 @@ jobs:
       run: ctest --build-config ${{ matrix.build_type }}
       continue-on-error: true
 
-    ## 5. PACKAGE LINUX BUILD
-    - name: Package Linux Build
-      if: runner.os == 'Linux'
-      run: |
-        mkdir -p package
-        cp ${{ steps.strings.outputs.build-output-dir }}/car_game package/
-        cp -r ${{ steps.strings.outputs.build-output-dir }}/assets package/
-        cd package
-        tar -czf ../CarGame-${{ matrix.os }}-${{ matrix.c_compiler }}.tar.gz *
-
-    ## 6. PACKAGE WINDOWS BUILD (WITH DLLs)
+## 6. PACKAGE WINDOWS BUILD (WITH DLLs)
     - name: Package Windows Build
       if: runner.os == 'Windows'
       shell: pwsh
@@ -133,9 +123,9 @@ jobs:
         # List what we packaged
         Get-ChildItem package/ | Format-Table Name, Length
         
-        # Create zip
-        Compress-Archive -Path package/* -DestinationPath "CarGame-${{ matrix.os }}-${{ matrix.c_compiler }}.zip"
-        
+        # Create zip (force overwrite if exists)
+        Compress-Archive -Path package/* -DestinationPath "CarGame-${{ matrix.os }}-${{ matrix.c_compiler }}.zip" -Force
+    
     ## 7. UPLOAD ARTIFACTS
     - name: Upload Game Artifact
       uses: actions/upload-artifact@v4
