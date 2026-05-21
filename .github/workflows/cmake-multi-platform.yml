@@ -85,7 +85,7 @@ jobs:
       run: ctest --build-config ${{ matrix.build_type }}
       continue-on-error: true
 
-## 6. PACKAGE WINDOWS BUILD (WITH DLLs)
+## 6. PACKAGE WINDOWS BUILD (WITH ALL DLLs - COMPREHENSIVE)
     - name: Package Windows Build
       if: runner.os == 'Windows'
       shell: pwsh
@@ -94,41 +94,22 @@ jobs:
         Copy-Item "${{ steps.strings.outputs.build-output-dir }}/Release/car_game.exe" -Destination package/
         Copy-Item -Recurse "${{ steps.strings.outputs.build-output-dir }}/assets" -Destination package/
         
-        # Copy required DLLs from vcpkg
+        # Copy ALL DLLs from vcpkg bin directory
         $vcpkgBin = "C:/vcpkg/installed/x64-windows/bin"
-        $requiredDlls = @(
-          "freeglut.dll",
-          "SDL2.dll",
-          "SDL2_mixer.dll",
-          "vorbisfile.dll",
-          "wavpack.dll",
-          "libFLAC.dll",
-          "libmodplug-1.dll",
-          "libmpg123-0.dll",
-          "libogg-0.dll",
-          "libopus-0.dll",
-          "libopusfile-0.dll",
-          "libvorbis-0.dll",
-          "libvorbisfile-3.dll",
-          "vorbis.dll",
-          "ogg.dll"
-        )
-        
-        foreach ($dll in $requiredDlls) {
-          $dllPath = Join-Path $vcpkgBin $dll
-          if (Test-Path $dllPath) {
-            Copy-Item $dllPath -Destination package/
-            Write-Host "Copied: $dll"
-          } else {
-            Write-Host "Warning: $dll not found (may be optional)"
-          }
+        Write-Host "Copying all DLLs from $vcpkgBin"
+        Get-ChildItem "$vcpkgBin/*.dll" | ForEach-Object {
+          Copy-Item $_.FullName -Destination package/
+          Write-Host "  Copied: $($_.Name) ($([math]::Round($_.Length/1KB, 2)) KB)"
         }
         
-        # List what we packaged
-        Get-ChildItem package/ | Format-Table Name, Length
+        Write-Host "`nPackage contents:"
+        Get-ChildItem package/ -Recurse | Format-Table Name, Length
         
         # Create zip (force overwrite if exists)
         Compress-Archive -Path package/* -DestinationPath "CarGame-${{ matrix.os }}-${{ matrix.c_compiler }}.zip" -Force
+        
+        $zipSize = (Get-Item "CarGame-${{ matrix.os }}-${{ matrix.c_compiler }}.zip").Length
+        Write-Host "`nCreated zip file: $([math]::Round($zipSize/1MB, 2)) MB"
         
             
     ## 7. UPLOAD ARTIFACTS
