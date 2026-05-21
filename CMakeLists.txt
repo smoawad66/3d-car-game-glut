@@ -17,7 +17,7 @@ if(WIN32)
     # Try to find SDL2_mixer using pkg-config first (vcpkg provides this)
     find_package(PkgConfig)
     if(PkgConfig_FOUND)
-        pkg_check_modules(SDL2_MIXER SDL2_mixer)
+        pkg_check_modules(SDL2_MIXER REQUIRED SDL2_mixer)
     endif()
     
     # If pkg-config didn't work, try manual search
@@ -61,6 +61,11 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
 
+# Add link directories for Windows (vcpkg uses pkg-config which needs this)
+if(WIN32 AND SDL2_MIXER_LIBRARY_DIRS)
+    link_directories(${SDL2_MIXER_LIBRARY_DIRS})
+endif()
+
 # Source files
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 
@@ -74,8 +79,12 @@ target_link_libraries(car_game
     ${SDL2_LIBRARIES}
     ${SDL2_MIXER_LIBRARIES}
     OpenGL::GLU
-    SDL2_mixer
 )
+
+# On Linux, also link SDL2_mixer as a target (this works on Linux but not Windows)
+if(NOT WIN32)
+    target_link_libraries(car_game SDL2_mixer)
+endif()
 
 # Copy assets to the build directory
 file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
