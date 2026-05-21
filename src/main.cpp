@@ -300,9 +300,14 @@ void keyboardUp(unsigned char key, int, int) { // reset the buffer of a key if i
 
 void keyboard(unsigned char key, int, int) {// set the buffer of a key if it is pressed
 	if (key == ESC) {
-		soundEngine->playSound("game-exit.wav");
-		delay(0.6);
-		exitGame(); 
+		if(gameState == PLAYING) {
+			gameState = MENU;
+		}
+		else {
+			soundEngine->playSound("game-exit.wav");
+			delay(0.6);
+			exitGame();
+		}
 	}
 	
 	// Menu input
@@ -469,10 +474,10 @@ void init() {
 	initLighting();
 
 	loadTexture("road.bmp", 1);
-	loadTexture("summer-scene.jpg", 2);
-	loadTexture("sky.jpg", 3);
-	loadTexture("obstacle.jpg", 4);
-	loadTexture("win2.jpg", 5);
+	loadTexture("summer-scene.bmp", 2);
+	loadTexture("sky.bmp", 3);
+	loadTexture("obstacle.bmp", 4);
+	loadTexture("win2.bmp", 5);
 
 	soundEngine = new SoundEngine(soundsPath);
 	soundEngine->initAudio();
