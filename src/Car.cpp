@@ -9,20 +9,25 @@ Car::Car(float r, float g, float b) {
 
 
 void Car::draw() {
-
+	
+	glPushMatrix();
 	glRotatef(-90, 0, 1, 0);
 	glScalef(0.62, 0.99, 0.9);
 
 
 	// front lights
 	glPushMatrix();
+	glTranslatef(0.19, 0.3, 0.3);
 	glColor3f(1, 1, 1);
-	glPointSize(12);
-	glBegin(GL_POINTS);
-	glVertex3f(0.19, 0.3, 0.3);
-	glVertex3f(0.19, 0.3, 0.5);
-	glEnd();
+	glutSolidSphere(0.025, 8, 8);
 	glPopMatrix();
+
+	glPushMatrix();
+	glTranslatef(0.19, 0.3, 0.5);
+	glColor3f(1, 1, 1);
+	glutSolidSphere(0.025, 8, 8);
+	glPopMatrix();
+
 
 	// back lights
 	glColor3f(0.439, 0.035, 0.035);
@@ -321,6 +326,7 @@ void Car::draw() {
 
 	
 	glColor3f(1, 1, 1);
-	glLoadIdentity();
+	
+	glPopMatrix();
 
 }

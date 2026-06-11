@@ -10,6 +10,7 @@ Road::Road(float roadRight, float roadLeft, float roadStart, float roadEnd) {
 
 void Road::draw(unsigned int *textures) {
     
+    glNormal3f(0, 1, 0);
     // Road
 	glBindTexture(GL_TEXTURE_2D, textures[1]);
 	glBegin(GL_POLYGON);

@@ -5,6 +5,9 @@
 #include <Road.h>
 #include <SoundEngine.h>
 #include <Menu.h>
+#ifdef _WIN32
+#include <windows.h>
+#endif
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 #define ENTER 13
@@ -99,7 +102,8 @@ void setWalls(int n = 20) {
 
 // Drawing
 void drawCoins() {
-	glEnable(GL_LIGHTING);      // Enable lighting
+	glPushAttrib(GL_LIGHTING_BIT | GL_ENABLE_BIT | GL_CURRENT_BIT);
+	glEnable(GL_LIGHTING);
 	glEnable(GL_LIGHT0);
 	for (int i = 0; i < coins.size(); i++) {
 		if (coins[i].colided) {
@@ -107,9 +111,7 @@ void drawCoins() {
 		}
 		coins[i].draw(coinAngle);
 	}
-
-	glDisable(GL_LIGHT0);
-	glDisable(GL_LIGHTING);
+	glPopAttrib();
 }
 
 void drawWalls() {
@@ -271,6 +273,12 @@ void display(){
 
 		overlay(rectWidth, rectHeight, xPos, yPos, "Game Over!", 0.7f);
 	}	
+
+	glDisable(GL_LIGHTING);
+	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
+	glEnable(GL_DEPTH_TEST);
+	glDisable(GL_CULL_FACE);
 
 	glColor3f(1, 1, 1);
     glPushMatrix();
@@ -469,6 +477,7 @@ void init() {
 	setWalls(40);
 
 	glClearColor(0,0,0, 1.0f);
+	glDisable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 
 	initLighting();
@@ -483,7 +492,11 @@ void init() {
 	soundEngine->initAudio();
 
 	glutFullScreen();
-	// ShowWindow(GetConsoleWindow(), 0);
+
+#ifdef _WIN32
+	ShowWindow(GetConsoleWindow(), 0);
+#endif
+
 }
 
 void reshape(int width, int height) {
@@ -521,7 +534,7 @@ int main(int argc, char** argv) {
 	glutInit(&argc, argv);
 	
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGBA);
-	glutCreateWindow("Car driving");
+	glutCreateWindow("Car Game");
 	
 	init();
 	

@@ -9,6 +9,7 @@ Wall::Wall(float x1, float x2, float z) {
 
 
 void Wall::draw(float wallHeight, float wallDepth) {
+    glNormal3f(0, 1, 0);
     glBegin(GL_QUADS);
     //back
     glTexCoord2f(0, 0); glVertex3f(x1, 0, z);

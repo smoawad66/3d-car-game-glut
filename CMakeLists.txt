@@ -69,6 +69,26 @@ endif()
 # Source files
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "src/*.cpp")
 
+# Windows icon
+if(WIN32)
+    # resources.rc is text — configure_file is fine
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/assets/resources.rc ${CMAKE_CURRENT_BINARY_DIR}/resources.rc COPYONLY)
+
+    # icon.ico is binary — use add_custom_command so it's copied at BUILD time
+    # This avoids RC2175 caused by configure_file corrupting binary files
+    add_custom_command(
+        OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/icon.ico
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/assets/icon.ico ${CMAKE_CURRENT_BINARY_DIR}/icon.ico
+        DEPENDS ${CMAKE_CURRENT_SOURCE_DIR}/assets/icon.ico
+        COMMENT "Copying icon.ico to build directory"
+    )
+
+    set(SOURCES ${SOURCES}
+        ${CMAKE_CURRENT_BINARY_DIR}/resources.rc
+        ${CMAKE_CURRENT_BINARY_DIR}/icon.ico  # ensures copy runs before RC compiles
+    )
+endif()
+
 # Create executable
 add_executable(car_game ${SOURCES})
 
@@ -86,5 +106,12 @@ if(NOT WIN32)
     target_link_libraries(car_game SDL2_mixer)
 endif()
 
+
 # Copy assets to the build directory
-file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+if(WIN32)
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR}
+        PATTERN "*.rc" EXCLUDE
+        PATTERN "*.ico" EXCLUDE)
+else()
+    file(COPY ${CMAKE_CURRENT_SOURCE_DIR}/assets DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+endif()
